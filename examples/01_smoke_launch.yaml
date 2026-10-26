@@ -1,0 +1,27 @@
+# 01 冷启动冒烟：App 能起来、能落到情报流、关键元素在
+# 说明：AIGun 是 Flutter，Maestro 读的是 Semantics 树。
+# Flutter 会把「文本 + 无障碍提示」拼成一个 content-desc，例如
+#   "机会\n第 1 个标签，共 4 个"
+# 所以这里统一用单引号包住的正则 '机会[\s\S]*'（单引号里反斜杠不会被 YAML 吃掉）。
+appId: com.aigun.app
+name: 01 冷启动冒烟
+tags:
+  - smoke
+---
+- launchApp:
+    clearState: false        # 千万别清状态：清了会掉登录态
+
+# 首次启动会弹「开启通知，别错过情报」，关掉即可（没有就跳过）
+- tapOn:
+    text: '暂不开启'
+    optional: true
+
+# 启动要过 SplashBoot（域名探测 + Privy session 恢复 + feature flags），给足 30s
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+
+- assertVisible: '金狗[\s\S]*'
+- assertVisible: '聪明钱[\s\S]*'
+- assertVisible: '战绩榜单'
+- takeScreenshot: 01-intel-feed

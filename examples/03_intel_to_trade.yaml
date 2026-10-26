@@ -1,0 +1,40 @@
+# 03 真实业务链路：情报流 → 卡片上的「交易」→ 交易面板 → 钱包
+# 这条是典型的「跨页面、带状态」用例：验证从信号到下单入口的跳转没有断
+appId: com.aigun.app
+name: 03 情报到交易再到钱包
+tags:
+  - journey
+---
+- launchApp:
+    clearState: false
+- tapOn:
+    text: '暂不开启'
+    optional: true
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+
+# 情报卡片右下角的「交易」按钮（index 0 = 第一张卡片）
+# 注意别写成 tapOn: '交易' 去点底部 Tab —— 底部 Tab 的 content-desc 里也含「交易」，
+# 这里用 index: 0 明确取第一个精确匹配项
+- tapOn:
+    text: '交易'
+    index: 0
+
+# 代币交易面板：限价单 / 买入 / 卖出 / 25% 快捷仓位
+- extendedWaitUntil:
+    visible: '限价单'
+    timeout: 20000
+- assertVisible: '买入'
+- assertVisible: '卖出'
+- assertVisible: '25%'
+- takeScreenshot: 03-trade-panel
+
+# 返回情报流，再切到钱包核对余额区
+- back
+- tapOn: '钱包[\s\S]*'
+- extendedWaitUntil:
+    visible: '交易历史'
+    timeout: 15000
+- assertVisible: '接收'
+- takeScreenshot: 03-wallet

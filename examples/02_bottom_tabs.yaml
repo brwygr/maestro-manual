@@ -1,0 +1,54 @@
+# 02 底部 5 个 Tab 巡检：每个 Tab 断言一个「只有这个页面才有」的元素
+# 注意：底部导航的 label 里带无障碍提示（"追踪\n第 2 个标签，共 5 个"），必须用正则
+appId: com.aigun.app
+name: 02 底部 Tab 巡检
+tags:
+  - smoke
+  - navigation
+---
+- launchApp:
+    clearState: false
+- tapOn:
+    text: '暂不开启'
+    optional: true
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+
+# ---- 1. 情报（默认落地页）----
+- assertVisible: '战绩榜单'
+- takeScreenshot: 02-1-intel
+
+# ---- 2. 追踪：热门 / 自选 / 自选雷达 / 最新信号 ----
+- tapOn: '追踪[\s\S]*'
+- extendedWaitUntil:
+    visible: '热门[\s\S]*'
+    timeout: 15000
+- assertVisible: '自选雷达[\s\S]*'
+- assertVisible: '最新信号[\s\S]*'
+- takeScreenshot: 02-2-track
+
+# ---- 3. Agent 广场 ----
+- tapOn: 'Agent[\s\S]*'
+- extendedWaitUntil:
+    visible: 'Agent 广场[\s\S]*'
+    timeout: 15000
+- assertVisible: '我的 Agent[\s\S]*'
+- takeScreenshot: 02-3-agent
+
+# ---- 4. 交易：Swap / 挂单 ----
+- tapOn: '交易[\s\S]*'
+- extendedWaitUntil:
+    visible: '立即交易'
+    timeout: 15000
+- assertVisible: '挂单[\s\S]*'
+- takeScreenshot: 02-4-trade
+
+# ---- 5. 钱包：余额 + 四个入口 + 币种列表 ----
+- tapOn: '钱包[\s\S]*'
+- extendedWaitUntil:
+    visible: '交易历史'
+    timeout: 15000
+- assertVisible: '接收'
+- assertVisible: '发送'
+- takeScreenshot: 02-5-wallet

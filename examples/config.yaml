@@ -1,0 +1,11 @@
+# Maestro workspace 配置（AIGun / com.aigun.app）
+# 文档：https://docs.maestro.dev/reference/workspace-configuration
+appId: com.aigun.app
+
+# `maestro test maestro/` 时按这个 glob 收集用例
+flows:
+  - "flows/*.yaml"
+
+# 全局变量：flow 里用 ${TEST_EMAIL} 引用；CI 可用 -e 覆盖
+env:
+  TEST_EMAIL: "qa+maestro@example.com"
