@@ -23,53 +23,62 @@ CI 负责「每次都一样、失败必须红」      →  maestro test flows/*.
 Maestro CLI 内置了 MCP server，`maestro mcp` 一条命令就能让 Claude Code / Codex / Cursor / Copilot
 直接操作你连着的模拟器：看屏幕、点、滑、断言、跑 flow，**边改边验**。
 
-MCP 暴露的工具（agent 自己会调，你不用背）：
+MCP 暴露的工具（CLI 2.12 实测 `tools/list` 返回 10 个，agent 自己会调，你不用背）：
 
-| 工具 | 作用 | 你会看到的效果 |
-|---|---|---|
-| `inspect_screen` | 把当前界面导出成紧凑 JSON（元素树） | agent 不再瞎猜选择器 |
-| `take_screenshot` | 截图 | 让它"看一眼"布局 |
-| `run` | 执行 flow：可传内联 YAML、指定文件、或整个目录 | 改一行立刻重跑 |
-| `cheat_sheet` | 返回 Maestro 命令速查表 | 少写错语法 |
-| `open_maestro_viewer` | 打开 Maestro Viewer（把模拟器嵌进 IDE/浏览器） | 你能实时看它在点什么 |
+| 工具 | 作用 |
+|---|---|
+| `list_devices` | 列出可用的模拟器/真机 |
+| `inspect_screen` | 把当前界面导出成紧凑 JSON（元素树）—— agent 靠它拿真实选择器 |
+| `take_screenshot` | 截图 |
+| `run` | 执行 flow：内联 YAML / 指定文件 / 整个目录 |
+| `cheat_sheet` | 返回 Maestro 命令速查表 |
+| `open_maestro_viewer` | 返回 Maestro Viewer 地址，把设备画面嵌进 IDE/浏览器 |
+| `list_cloud_devices` / `run_on_cloud` / `get_cloud_run_status` / `describe_cloud_run` | Maestro Cloud 相关（本地不用管） |
 
-**配置（选你用的 agent）：**
+**配置（Windows，实测可用）：**
 
-```bash
+```powershell
 # Claude Code
-claude mcp add maestro -- maestro mcp
+claude mcp add maestro -- "E:\maestro\maestro.cmd" mcp
 
 # Codex CLI
-codex mcp add maestro -- maestro mcp
+codex mcp add maestro -- "E:\maestro\maestro.cmd" mcp
 
 # Gemini CLI
-gemini mcp add maestro maestro mcp
+gemini mcp add maestro "E:\maestro\maestro.cmd" mcp
 ```
 
 ```json
-// Cursor: ~/.cursor/mcp.json（或项目根 .cursor/mcp.json）
+// Cursor: ~/.cursor/mcp.json ；Trae / VS Code 的 MCP 面板也是同一份结构
 {
   "mcpServers": {
-    "maestro": { "command": "maestro", "args": ["mcp"] }
+    "maestro": {
+      "command": "E:\\maestro\\maestro.cmd",
+      "args": ["mcp"]
+    }
   }
 }
 ```
 
-> Windows 上如果 agent 找不到 `maestro` 或 Java，就用全路径 + 显式 `JAVA_HOME`：
+> **两个 Windows 专有坑：**
+>
+> 1. **不用配 `JAVA_HOME`** —— `E:\maestro\maestro.cmd` 里已经把 JAVA_HOME 指向 JDK 17 了。
+> 2 **Node 20+ 的客户端不能直接 spawn `.cmd`**（会报 `spawn EINVAL`）。遇到就包一层：
 >
 > ```json
 > {
 >   "mcpServers": {
 >     "maestro": {
->       "command": "E:\\Work\\AIGun\\tools\\maestro\\bin\\maestro.bat",
->       "args": ["mcp"],
->       "env": { "JAVA_HOME": "C:\\Program Files\\Java\\jdk-17" }
+>       "command": "cmd",
+>       "args": ["/c", "E:\\maestro\\maestro.cmd", "mcp"]
 >     }
 >   }
 > }
 > ```
 
-配好后重启 agent，说一句 **"open the maestro viewer"**，模拟器画面就嵌进来了。
+**前提**：模拟器/真机必须已经起来（`adb devices` 能看到 `device`），否则 `list_devices` 返回空。
+
+配好后重启 agent，先让它调一次 `list_devices`，再说 **"open the maestro viewer"**，设备画面就嵌进来了。
 
 **它适合干什么：**
 
