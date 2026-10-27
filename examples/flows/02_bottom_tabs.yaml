@@ -1,9 +1,10 @@
-# 02 底部 5 个 Tab 巡检：每个 Tab 断言一个「只有这个页面才有」的元素
+﻿# 02 底部 5 个 Tab 巡检：每个 Tab 断言一个「只有这个页面才有」的元素
 # 注意：底部导航的 label 里带无障碍提示（"追踪\n第 2 个标签，共 5 个"），必须用正则
 appId: com.aigun.app
 name: 02 底部 Tab 巡检
 tags:
   - smoke
+  - p0
   - navigation
 ---
 - launchApp:

@@ -1,0 +1,19 @@
+# 公共步骤库：打开「钱包」页
+# 被 04、05 以及后续所有钱包相关用例 runFlow 引用。
+# 好处：改一次，所有引用它的用例全部生效 —— 这就是 Maestro 版的「页面对象」。
+
+appId: com.aigun.app
+name: _打开钱包页（公共子流程）
+---
+- launchApp:
+    clearState: false
+- tapOn:
+    text: '暂不开启'
+    optional: true
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+- tapOn: '钱包[\s\S]*'
+- extendedWaitUntil:
+    visible: '交易历史'
+    timeout: 15000

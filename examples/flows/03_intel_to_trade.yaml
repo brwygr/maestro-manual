@@ -4,6 +4,8 @@ appId: com.aigun.app
 name: 03 情报到交易再到钱包
 tags:
   - journey
+  - p1
+  - trade
 ---
 - launchApp:
     clearState: false

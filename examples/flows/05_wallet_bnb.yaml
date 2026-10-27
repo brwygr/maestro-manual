@@ -1,24 +1,14 @@
-﻿# 05 练习：钱包 → 接收 → BNB Chain
+# 05 练习：钱包 → 接收 → BNB Chain
 # 与 04 只差一行：Solana → BNB Chain。
 # 目的：验证"换一条链"这个动作，顺便练习「复制 → 改一行 → 跑 → 看失败截图 → 再改」的循环。
 appId: com.aigun.app
 name: 05 钱包收款地址（BNB Chain）
 tags:
   - wallet
+  - p1
 ---
-- launchApp:
-    clearState: false
-- tapOn:
-    text: '暂不开启'
-    optional: true
-- extendedWaitUntil:
-    visible: '机会[\s\S]*'
-    timeout: 30000
-
-- tapOn: '钱包[\s\S]*'
-- extendedWaitUntil:
-    visible: '交易历史'
-    timeout: 15000
+# 前置复用公共子流程
+- runFlow: ../subflows/_open_wallet.yaml
 
 - tapOn: '接收'
 - extendedWaitUntil:

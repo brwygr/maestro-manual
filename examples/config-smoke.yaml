@@ -1,0 +1,13 @@
+# 冒烟套件：只跑 P0（发版前 2 分钟内必须绿的那几条）
+# 用法：maestro test --config config-smoke.yaml
+
+flows:
+  - "flows/*.yaml"
+
+includeTags:
+  - p0
+
+executionOrder:
+  continueOnFailure: false   # 冒烟挂了立刻停，别浪费时间跑后面的
+
+testOutputDir: ".artifacts/smoke"

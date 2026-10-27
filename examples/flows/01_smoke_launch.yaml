@@ -1,4 +1,4 @@
-# 01 冷启动冒烟：App 能起来、能落到情报流、关键元素在
+﻿# 01 冷启动冒烟：App 能起来、能落到情报流、关键元素在
 # 说明：AIGun 是 Flutter，Maestro 读的是 Semantics 树。
 # Flutter 会把「文本 + 无障碍提示」拼成一个 content-desc，例如
 #   "机会\n第 1 个标签，共 4 个"
@@ -7,6 +7,8 @@ appId: com.aigun.app
 name: 01 冷启动冒烟
 tags:
   - smoke
+  - p0
+  - intel
 ---
 - launchApp:
     clearState: false        # 千万别清状态：清了会掉登录态

@@ -1,0 +1,12 @@
+# 回归套件：只跑 p1（发版前跑一遍，覆盖各模块主链路）
+
+flows:
+  - "flows/*.yaml"
+
+includeTags:
+  - p1
+
+executionOrder:
+  continueOnFailure: true    # 回归允许有失败继续跑，最后统一看报告
+
+testOutputDir: ".artifacts/regression"
