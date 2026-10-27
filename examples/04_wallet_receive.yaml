@@ -1,0 +1,58 @@
+# 04 钱包收款地址 —— 手写模板：从零把一个流程拆成 5 个动作
+#
+# 一条 flow = 三部分：
+#   1) appId / name / tags   → 文件头，说明测谁
+#   2) ---                   → 分隔符，必须有
+#   3) - xxx                 → 步骤，一行一个命令
+
+appId: com.aigun.app
+name: 04 钱包收款地址
+tags:
+  - wallet
+---
+# ① 启动 App。clearState: false = 保留登录态（清了两周前那次登录就没了）
+- launchApp:
+    clearState: false
+
+# ② 处理"可选的"弹窗：有就点，没有就跳过（optional: true）
+- tapOn:
+    text: '暂不开启'
+    optional: true
+
+# ③ 等首屏出现。Flutter 启动慢，给 30 秒；不要用 sleep
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+
+# ④ 点底部「钱包」tab。
+#    Flutter 的语义文本是拼接的："钱包\n第 5 个标签，共 5 个"
+#    所以用正则 [\s\S]* 兜住后半截，而不是精确匹配「钱包」
+- tapOn: '钱包[\s\S]*'
+
+# ⑤ 断言到了钱包页：只有这个页面才有「交易历史」
+- extendedWaitUntil:
+    visible: '交易历史'
+    timeout: 15000
+
+# ⑥ 点「接收」→ 弹出网络选择 → 选 Solana
+- tapOn: '接收'
+- extendedWaitUntil:
+    visible: '选择网络'
+    timeout: 15000
+- tapOn: 'Solana'
+
+# ⑦ 断言收款页的关键元素：二维码 + 地址 + 复制按钮
+- extendedWaitUntil:
+    visible: 'Solana 网络收款'
+    timeout: 15000
+- assertVisible: 'qr code'
+- assertVisible: '复制'
+- takeScreenshot: 04-receive
+
+# ⑧ 逐级返回：收款页 → 网络选择 → 钱包
+#    这里踩过一次坑：只按一次 back 会停在「选择网络」而不是钱包，
+#    所以要一层一层退，每退一层断言一次，才知道卡在哪。
+- back
+- assertVisible: '选择网络'
+- back
+- assertVisible: '交易历史'

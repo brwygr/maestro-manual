@@ -1,4 +1,4 @@
-# Maestro 移动端 E2E 中文手册
+﻿# Maestro 移动端 E2E 中文手册
 
 > 基于一个真实 **Flutter App（Android）** 的实操总结：从装 CLI、用 Studio 点出第一条用例，到写出可维护的 YAML，再到用 AI（MCP）加速探索与修复。
 
@@ -39,6 +39,7 @@ maestro test examples/
 - `01_smoke_launch.yaml` — 冷启动冒烟（含首启弹窗处理）
 - `02_bottom_tabs.yaml` — 底部 5 个 Tab 巡检
 - `03_intel_to_trade.yaml` — 跨页面业务链路
+- `04_wallet_receive.yaml` — 钱包收款地址（手写模板，逐行注释）
 
 > `appId` 用的是示例 App（`com.aigun.app`），换成你自己的包名即可；选择器写法可原样复用。
 
@@ -58,3 +59,4 @@ CI 负责「每次都一样、失败必须红」    → maestro test flows/*.yam
 ## License
 
 文档内容可自由使用、修改、转载，注明出处即可。
+
