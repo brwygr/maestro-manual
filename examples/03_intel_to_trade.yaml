@@ -21,13 +21,16 @@ tags:
     text: '交易'
     index: 0
 
-# 代币交易面板：限价单 / 买入 / 卖出 / 25% 快捷仓位
+# 代币交易面板：下单类型 + 买卖切换 + 快捷仓位
+# 注意：面板默认是「市价单」，切到限价单才有 25%/50%/75%/100%。
+# 所以这里断言「市价单或限价单」这种与当前模式无关的元素，别写死单一模式。
 - extendedWaitUntil:
-    visible: '限价单'
+    visible: '(市价单|限价单)'
     timeout: 20000
 - assertVisible: '买入'
 - assertVisible: '卖出'
-- assertVisible: '25%'
+- assertVisible: '立刻买入'
+- assertVisible: '自动止盈止损'
 - takeScreenshot: 03-trade-panel
 
 # 返回情报流，再切到钱包核对余额区
