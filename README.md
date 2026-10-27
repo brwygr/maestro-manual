@@ -11,6 +11,7 @@ Maestro 是 mobile-dev-inc 开源的 UI 自动化框架（Apache-2.0），用 YA
 
 | 文档 | 讲什么 | 适合谁 |
 |---|---|---|
+| [新手教学](./新手教学.md) | 从零到第一条能跑的 Flow：YAML 三块结构、4 条常用命令、怎么找文案、Studio 右键、Flutter 拼接坑 | 完全没接触过 |
 | [快速上手](./快速上手.md) | Maestro 由哪几块组成、CLI 与 Studio 怎么装、Studio 五步点出第一条用例、Flow 最小结构、常用命令 | 第一次接触，想先跑起来 |
 | [YAML 规范](./YAML规范.md) | 文件解剖、命令目录、选择器、控制流、变量与 JS、config.yaml、命名约定、反模式、自查清单 | 要写、要 review、要进 CI |
 | [AI 使用指南](./AI-使用指南.md) | Maestro MCP 接入、AI 写用例/修选择器、assertWithAI 的边界、提示词模板 | 想把 AI 接进测试流程 |
@@ -59,4 +60,5 @@ CI 负责「每次都一样、失败必须红」    → maestro test flows/*.yam
 ## License
 
 文档内容可自由使用、修改、转载，注明出处即可。
+
 
