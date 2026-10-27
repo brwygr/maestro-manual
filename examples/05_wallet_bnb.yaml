@@ -1,0 +1,43 @@
+﻿# 05 练习：钱包 → 接收 → BNB Chain
+# 与 04 只差一行：Solana → BNB Chain。
+# 目的：验证"换一条链"这个动作，顺便练习「复制 → 改一行 → 跑 → 看失败截图 → 再改」的循环。
+appId: com.aigun.app
+name: 05 钱包收款地址（BNB Chain）
+tags:
+  - wallet
+---
+- launchApp:
+    clearState: false
+- tapOn:
+    text: '暂不开启'
+    optional: true
+- extendedWaitUntil:
+    visible: '机会[\s\S]*'
+    timeout: 30000
+
+- tapOn: '钱包[\s\S]*'
+- extendedWaitUntil:
+    visible: '交易历史'
+    timeout: 15000
+
+- tapOn: '接收'
+- extendedWaitUntil:
+    visible: '选择网络'
+    timeout: 15000
+
+# ↓↓↓ 与 04 唯一的差别就在这一行 ↓↓↓
+- tapOn: 'BNB Chain'
+
+# 不同链的收款页标题不同（如 "BNB Chain 网络收款"），用包含匹配更稳
+- extendedWaitUntil:
+    visible: '[\s\S]*网络收款'
+    timeout: 15000
+- assertVisible: 'qr code'
+- assertVisible: '复制'
+- takeScreenshot: 05-receive-bnb
+
+# 收款页 → 网络选择 → 钱包，退一层断一次
+- back
+- assertVisible: '选择网络'
+- back
+- assertVisible: '交易历史'

@@ -41,6 +41,7 @@ maestro test examples/
 - `02_bottom_tabs.yaml` — 底部 5 个 Tab 巡检
 - `03_intel_to_trade.yaml` — 跨页面业务链路
 - `04_wallet_receive.yaml` — 钱包收款地址（手写模板，逐行注释）
+- `05_wallet_bnb.yaml` — 同 04 换 BNB Chain（练习用，只差一行）
 
 > `appId` 用的是示例 App（`com.aigun.app`），换成你自己的包名即可；选择器写法可原样复用。
 
@@ -60,5 +61,6 @@ CI 负责「每次都一样、失败必须红」    → maestro test flows/*.yam
 ## License
 
 文档内容可自由使用、修改、转载，注明出处即可。
+
 
 
